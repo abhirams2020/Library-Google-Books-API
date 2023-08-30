@@ -1,0 +1,22 @@
+API
+
+fetch(`https://openlibrary.org/search.json?q=${searchTerm}`)
+.then(response => response.json())
+.then(data => {
+  displayResults(data.docs);
+})
+.catch(error => {
+  console.error("Error fetching data:", error);
+});
+
+Fetches api data with given search term. Response.status is 200 if it exists. Else response can be 404/500.
+
+Npm init in folder to start project and create package.json
+
+Start and Kill http-server (localhost)
+
+npm install -g http-server
+
+http-server -p 8080
+
+npx kill-port 8080
