@@ -20,3 +20,20 @@ npm install -g http-server
 http-server -p 8080
 
 npx kill-port 8080
+
+postgres queries were not working in script.js because not ended with ';'
+
+hiding password using dotenv in nodejs. (imp)
+https://northflank.com/guides/connecting-to-a-postgresql-database-using-node-js
+PG_HOST=<postgres hostname>
+PG_PORT=<postgres port>
+PG_USER=<postgres database user>
+PG_PASSWORD=<postgres database password>
+PG_DATABASE=<postgres database name>
+
+Steps
+
+1. Created basic webpage which fetches data from google books api and shows in page
+2. Added pagination to make page loading faster. No need to get all results at once.
+3. Implemented a view details button which shows popup modal with all details on click.
+4. Need to transfer data from google books api to local postgres
