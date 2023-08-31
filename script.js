@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function fetchResults(term, page) {
     const startIndex = (page - 1) * 10;
-    console.log(page, startIndex, itemsPerPage)
+    console.log(page, startIndex, itemsPerPage);
     // const apiUrl1 = `https://www.googleapis.com/books/v1/volumes?q=intitle:${term}&langRestrict=en&startIndex=${startIndex}&maxResults=10`;
     // fetch(apiUrl1)
     //   .then(response => response.json())
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //     console.error("Error fetching data:", error);
     //   });
     // return;
-    const apiUrl = `http://localhost:3000/api/books?page=${page}&itemsPerPage=${itemsPerPage}`;
+    const apiUrl = `http://localhost:3000/api/books?term=${term}&page=${page}&itemsPerPage=${itemsPerPage}`;
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -52,10 +52,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function displayResults(books) {
-    console.log('display results fn');
+    console.log("display results fn");
     resultsDiv.innerHTML = "";
 
     console.log(books);
+
+    // if(books === { error: "Internal Server Error" }){
+    //   const bookElement = document.createElement("div");
+    //   bookElement.innerHTML = books[error];
+    //   resultsDiv.appendChild(bookElement);   
+    // }
 
     books.forEach((book, index) => {
       const title = book.title;
@@ -77,14 +83,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function displayBookDetails(book) {
     modalBookDetails.innerHTML = `
       <h2>${book.title}</h2>
-      <p>Author(s): ${
-        book.author || "Unknown Author"
-      }</p>
+      <p>Author(s): ${book.author || "Unknown Author"}</p>
       <p>Publisher: ${book.publisher}</p>
       <p>Published Date: ${book.published_date}</p>
-      <p>Description: ${
-        book.description || "No description available."
-      }</p>
+      <p>Description: ${book.description || "No description available."}</p>
     `;
 
     modal.style.display = "block";
@@ -135,5 +137,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  fetchResults('programming', currentPage);
+  fetchResults("programming", currentPage);
 });

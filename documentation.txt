@@ -31,6 +31,14 @@ PG_USER=<postgres database user>
 PG_PASSWORD=<postgres database password>
 PG_DATABASE=<postgres database name>
 
+add pagination in postgres queries.
+      const page = parseInt(req.query.page) || 1;   // Get the requested page, default to 1
+      const itemsPerPage = parseInt(req.query.itemsPerPage) || 10; // Get items per page, default to 10
+
+add search term in postgres queries
+SELECT * FROM books WHERE title LIKE '%book%' - case sensitive
+SELECT * FROM books WHERE title ILIKE '%book%' - case insensitive
+
 Steps
 
 1. Created basic webpage which fetches data from google books api and shows in page
