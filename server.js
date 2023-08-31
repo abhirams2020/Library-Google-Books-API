@@ -16,12 +16,35 @@ const pool = new Pool({
   database: process.env.PG_DATABASE,
 });
 
-app.get('/api/books', async (req, res) => {
+// app.get('/api/books', async (req, res) => {
+//     try {
+//     console.log(process.env.PG_HOST);
+//     console.log(pool);
+//       const client = await pool.connect();
+//       const result = await client.query('SELECT * FROM books;');
+//       const books = result.rows;
+//       client.release();
+//       res.json(books);
+//     } catch (err) {
+//       console.error('Error fetching data', err);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//     }
+//   });
+
+  app.get('/api/books', async (req, res) => {
     try {
-    console.log(process.env.PG_HOST);
-    console.log(pool);
+      const page = parseInt(req.query.page) || 1;   // Get the requested page, default to 1
+      const itemsPerPage = parseInt(req.query.itemsPerPage) || 10; // Get items per page, default to 10
+      const offset = (page - 1) * itemsPerPage;      // Calculate the offset
+  
       const client = await pool.connect();
-      const result = await client.query('SELECT * FROM books;');
+      const result = await client.query(`
+        SELECT * FROM books
+        ORDER BY id
+        LIMIT ${itemsPerPage}
+        OFFSET ${offset};
+      `);
+  
       const books = result.rows;
       client.release();
       res.json(books);
@@ -29,7 +52,7 @@ app.get('/api/books', async (req, res) => {
       console.error('Error fetching data', err);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
+  });  
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
