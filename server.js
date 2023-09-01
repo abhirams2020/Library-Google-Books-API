@@ -18,7 +18,7 @@ const pool = new Pool({
 
 app.get("/api/books", async (req, res) => {
   try {
-    const keyword = req.query.term || "";
+    const intitle = req.query.intitle || "";
     const page = parseInt(req.query.page) || 1; // Get the requested page, default to 1
     const itemsPerPage = parseInt(req.query.itemsPerPage) || 10; // Get items per page, default to 10
     const offset = (page - 1) * itemsPerPage; // Calculate the offset
@@ -27,14 +27,22 @@ app.get("/api/books", async (req, res) => {
     const result = await client.query(`
     SELECT * FROM books 
     WHERE 
-    title ILIKE '%${keyword}%'
-    OR author ILIKE '%${keyword}%'
-    OR publisher ILIKE '%${keyword}%'
-    OR description ILIKE '%${keyword}%'
+    title ILIKE '%${intitle}%'
     ORDER BY id 
     LIMIT ${itemsPerPage} 
     OFFSET ${offset}
     ;`);
+    // const result = await client.query(`
+    // SELECT * FROM books 
+    // WHERE 
+    // title ILIKE '%${keyword}%'
+    // OR author ILIKE '%${keyword}%'
+    // OR publisher ILIKE '%${keyword}%'
+    // OR description ILIKE '%${keyword}%'
+    // ORDER BY id 
+    // LIMIT ${itemsPerPage} 
+    // OFFSET ${offset}
+    // ;`);
 
     const books = result.rows;
     client.release();

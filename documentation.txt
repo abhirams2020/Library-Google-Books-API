@@ -39,9 +39,19 @@ add search term in postgres queries
 SELECT * FROM books WHERE title LIKE '%book%' - case sensitive
 SELECT * FROM books WHERE title ILIKE '%book%' - case insensitive
 
+migrating data from google books api to local db 
+fetch data repeatedy using for loop and do insert into table values.
+might require some wait time in loop to avoid ddos attack
+need to check if title is not null and date is in valid format.
+
+hit enter to search
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+
 Steps
 
 1. Created basic webpage which fetches data from google books api and shows in page
 2. Added pagination to make page loading faster. No need to get all results at once.
 3. Implemented a view details button which shows popup modal with all details on click.
 4. Need to transfer data from google books api to local postgres
+5. Authentication of requests using API key.
